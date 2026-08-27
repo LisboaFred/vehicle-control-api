@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { automobileService } from '../services/automobile.service';
+import { parsePagination, paginate } from '../utils/pagination';
 
 class AutomobileController {
   public create(req: Request, res: Response, next: NextFunction): void {
@@ -14,12 +15,16 @@ class AutomobileController {
 
   public findAll(req: Request, res: Response, next: NextFunction): void {
     try {
-      const { color, brand } = req.query;
+      const { color, brand, page, limit } = req.query;
       const automobiles = automobileService.findAll({
         color: color as string,
         brand: brand as string,
       });
-      res.status(200).json({ status: 'success', data: automobiles });
+
+      const pagination = parsePagination({ page: page as string, limit: limit as string });
+      const result = paginate(automobiles, pagination);
+
+      res.status(200).json({ status: 'success', ...result });
     } catch (error) {
       next(error);
     }

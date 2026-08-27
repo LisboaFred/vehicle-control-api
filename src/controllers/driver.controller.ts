@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { driverService } from '../services/driver.service';
+import { parsePagination, paginate } from '../utils/pagination';
 
 class DriverController {
   public create(req: Request, res: Response, next: NextFunction): void {
@@ -14,11 +15,15 @@ class DriverController {
 
   public findAll(req: Request, res: Response, next: NextFunction): void {
     try {
-      const { name } = req.query;
+      const { name, page, limit } = req.query;
       const drivers = driverService.findAll({
         name: name as string,
       });
-      res.status(200).json({ status: 'success', data: drivers });
+
+      const pagination = parsePagination({ page: page as string, limit: limit as string });
+      const result = paginate(drivers, pagination);
+
+      res.status(200).json({ status: 'success', ...result });
     } catch (error) {
       next(error);
     }

@@ -55,6 +55,18 @@ export const swaggerDocument = {
         parameters: [
           { in: 'query', name: 'color', schema: { type: 'string' } },
           { in: 'query', name: 'brand', schema: { type: 'string' } },
+          {
+            in: 'query',
+            name: 'page',
+            schema: { type: 'integer', default: 1 },
+            description: 'Page number',
+          },
+          {
+            in: 'query',
+            name: 'limit',
+            schema: { type: 'integer', default: 10 },
+            description: 'Items per page',
+          },
         ],
         responses: {
           '200': { description: 'Successful response' },
@@ -129,7 +141,21 @@ export const swaggerDocument = {
       get: {
         tags: ['Drivers'],
         summary: 'List drivers',
-        parameters: [{ in: 'query', name: 'name', schema: { type: 'string' } }],
+        parameters: [
+          { in: 'query', name: 'name', schema: { type: 'string' } },
+          {
+            in: 'query',
+            name: 'page',
+            schema: { type: 'integer', default: 1 },
+            description: 'Page number',
+          },
+          {
+            in: 'query',
+            name: 'limit',
+            schema: { type: 'integer', default: 10 },
+            description: 'Items per page',
+          },
+        ],
         responses: { '200': { description: 'Successful response' } },
       },
       post: {
@@ -192,6 +218,26 @@ export const swaggerDocument = {
       get: {
         tags: ['Usages'],
         summary: 'List usages (with details)',
+        parameters: [
+          {
+            in: 'query',
+            name: 'driverId',
+            schema: { type: 'string', format: 'uuid' },
+            description: 'Filter by driver',
+          },
+          {
+            in: 'query',
+            name: 'page',
+            schema: { type: 'integer', default: 1 },
+            description: 'Page number',
+          },
+          {
+            in: 'query',
+            name: 'limit',
+            schema: { type: 'integer', default: 10 },
+            description: 'Items per page',
+          },
+        ],
         responses: { '200': { description: 'Successful response' } },
       },
       post: {

@@ -4,7 +4,6 @@ import { app } from '../app';
 import { automobileRepository } from '../repositories/automobile.repository';
 
 beforeEach(() => {
-  
   (automobileRepository as any).automobiles = [];
 });
 

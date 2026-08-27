@@ -14,7 +14,7 @@ export function errorHandler(
   _req: Request,
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _next: NextFunction
+  _next: NextFunction,
 ): void {
   // Handle known operational errors
   if (err instanceof AppError) {

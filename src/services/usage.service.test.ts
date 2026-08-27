@@ -8,11 +8,10 @@ import { driverRepository } from '../repositories/driver.repository';
 import { BusinessRuleError, NotFoundError } from '../errors/app-error';
 
 beforeEach(() => {
-  
   (usageRepository as any).usages = [];
-  
+
   (automobileRepository as any).automobiles = [];
-  
+
   (driverRepository as any).drivers = [];
 });
 

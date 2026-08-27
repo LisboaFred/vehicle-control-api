@@ -8,11 +8,10 @@ import { automobileService } from '../services/automobile.service';
 import { driverService } from '../services/driver.service';
 
 beforeEach(() => {
-  
   (usageRepository as any).usages = [];
-  
+
   (automobileRepository as any).automobiles = [];
-  
+
   (driverRepository as any).drivers = [];
 });
 

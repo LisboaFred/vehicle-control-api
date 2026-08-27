@@ -4,7 +4,6 @@ import { app } from '../app';
 import { driverRepository } from '../repositories/driver.repository';
 
 beforeEach(() => {
-  
   (driverRepository as any).drivers = [];
 });
 

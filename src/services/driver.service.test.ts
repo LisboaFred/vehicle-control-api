@@ -4,7 +4,6 @@ import { driverRepository } from '../repositories/driver.repository';
 import { NotFoundError } from '../errors/app-error';
 
 beforeEach(() => {
-  
   (driverRepository as any).drivers = [];
 });
 

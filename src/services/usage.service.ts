@@ -49,12 +49,17 @@ class UsageService {
       throw new BusinessRuleError('Usage is already finished.');
     }
 
-    
     return usageRepository.update(id, { endDate: new Date() })!;
   }
 
-  public findAllWithDetails(): Array<Usage & { automobile: Automobile; driver: Driver }> {
-    const usages = usageRepository.findAll();
+  public findAllWithDetails(filters?: {
+    driverId?: string;
+  }): Array<Usage & { automobile: Automobile; driver: Driver }> {
+    let usages = usageRepository.findAll();
+
+    if (filters?.driverId) {
+      usages = usages.filter((u) => u.driverId === filters.driverId);
+    }
 
     // In-memory JOIN
     return usages.map((usage) => {
