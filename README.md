@@ -1,65 +1,36 @@
-# 🚗 Vehicle Control API
+# Vehicle Control API
 
-WebAPI RESTful para controle de utilização de automóveis corporativos, construída com **Node.js**, **TypeScript** e **Express**.
+RESTful API for managing corporate vehicle usage, built with Node.js, TypeScript and Express.
 
----
+## Stack
 
-## ✨ Destaques
+- **Runtime**: Node.js 20+
+- **Language**: TypeScript (strict mode)
+- **Framework**: Express 5
+- **Validation**: Zod
+- **Testing**: Jest + Supertest (50 tests, 6 suites)
+- **Documentation**: Swagger UI
+- **Linting**: ESLint 9 + Prettier
+- **Container**: Docker (multi-stage build)
 
-- **Arquitetura em camadas** — Routes → Controllers → Services → Repositories
-- **Validação de entrada** com Zod (runtime type-checking)
-- **Hierarquia de erros** semântica (400, 404, 409, 422, 500)
-- **50 testes** automatizados (unitários + integração) com Jest & Supertest
-- **Documentação interativa** via Swagger UI
-- **Interface Web** (bônus) consumindo a API em tempo real
-- **Docker** multi-stage pronto para produção
+## Getting Started
 
----
+### Prerequisites
 
-## 🛠 Tecnologias
+- Node.js >= 20
+- npm >= 10
 
-| Camada | Tecnologia |
-|---|---|
-| Runtime | Node.js 20+ |
-| Linguagem | TypeScript (strict mode) |
-| Framework HTTP | Express 5 |
-| Validação | Zod |
-| Testes | Jest + Supertest |
-| Documentação | Swagger UI |
-| Linting | ESLint 9 (flat config) + Prettier |
-| Containerização | Docker (multi-stage) |
-| Segurança | Helmet + CORS |
-
----
-
-## 🚀 Início Rápido
-
-### Pré-requisitos
-
-- Node.js ≥ 20
-- npm ≥ 10
-
-### Instalação
+### Install and Run
 
 ```bash
 git clone https://github.com/LisboaFred/vehicle-control-api.git
 cd vehicle-control-api
 npm install
 cp .env.example .env
-```
-
-### Executando
-
-```bash
-# Desenvolvimento (hot-reload)
 npm run dev
-
-# Produção
-npm run build
-npm start
 ```
 
-A aplicação estará disponível em **http://localhost:3000**.
+The server starts at `http://localhost:3000`.
 
 ### Docker
 
@@ -68,132 +39,109 @@ docker build -t vehicle-control-api .
 docker run -p 3000:3000 vehicle-control-api
 ```
 
----
+## API Documentation
 
-## 📖 Documentação da API
-
-Com o servidor rodando, acesse a documentação interativa:
-
-| Recurso | URL |
+| Resource | URL |
 |---|---|
-| **Swagger UI** | http://localhost:3000/api-docs |
-| **Health Check** | http://localhost:3000/api/health |
-| **Interface Web** (bônus) | http://localhost:3000 |
+| Swagger UI | http://localhost:3000/api-docs |
+| Health Check | http://localhost:3000/api/health |
+| Web Interface | http://localhost:3000 |
 
----
+## Endpoints
 
-## 🔌 Endpoints
+All list endpoints support pagination via `?page=1&limit=10`.
 
-### Automóveis — `/api/automobiles`
+### Automobiles `/api/automobiles`
 
-| Método | Rota | Descrição |
+| Method | Route | Description |
 |---|---|---|
-| `POST` | `/api/automobiles` | Cadastrar automóvel |
-| `GET` | `/api/automobiles` | Listar (filtros: `color`, `brand`) |
-| `GET` | `/api/automobiles/:id` | Buscar por ID |
-| `PUT` | `/api/automobiles/:id` | Atualizar |
-| `DELETE` | `/api/automobiles/:id` | Excluir |
+| POST | `/api/automobiles` | Create automobile |
+| GET | `/api/automobiles` | List (filters: `color`, `brand`) |
+| GET | `/api/automobiles/:id` | Get by ID |
+| PUT | `/api/automobiles/:id` | Update |
+| DELETE | `/api/automobiles/:id` | Delete |
 
-### Motoristas — `/api/drivers`
+### Drivers `/api/drivers`
 
-| Método | Rota | Descrição |
+| Method | Route | Description |
 |---|---|---|
-| `POST` | `/api/drivers` | Cadastrar motorista |
-| `GET` | `/api/drivers` | Listar (filtro: `name`) |
-| `GET` | `/api/drivers/:id` | Buscar por ID |
-| `PUT` | `/api/drivers/:id` | Atualizar |
-| `DELETE` | `/api/drivers/:id` | Excluir |
+| POST | `/api/drivers` | Create driver |
+| GET | `/api/drivers` | List (filter: `name`) |
+| GET | `/api/drivers/:id` | Get by ID |
+| PUT | `/api/drivers/:id` | Update |
+| DELETE | `/api/drivers/:id` | Delete |
 
-### Utilizações — `/api/usages`
+### Usages `/api/usages`
 
-| Método | Rota | Descrição |
+| Method | Route | Description |
 |---|---|---|
-| `POST` | `/api/usages` | Iniciar utilização |
-| `PATCH` | `/api/usages/:id/finish` | Finalizar utilização |
-| `GET` | `/api/usages` | Listar (com dados populados) |
+| POST | `/api/usages` | Start usage |
+| PATCH | `/api/usages/:id/finish` | Finish usage |
+| GET | `/api/usages` | List with details (filter: `driverId`) |
 
----
+## Business Rules
 
-## 📏 Regras de Negócio
+- A vehicle can only be used by one driver at a time.
+- A driver with an active usage cannot use another vehicle.
+- Duplicate license plates are not allowed.
+- Vehicles and drivers with active usage cannot be deleted.
 
-- Um automóvel só pode ser utilizado por **um motorista por vez**
-- Um motorista com uso ativo **não pode utilizar outro automóvel**
-- **Placas duplicadas** não são permitidas
-- Automóveis e motoristas com **uso ativo não podem ser excluídos**
+## Architecture
 
----
+```
+src/
+├── app.ts                    # Express configuration
+├── server.ts                 # Entry point + graceful shutdown
+├── config/                   # Environment variables
+├── controllers/              # HTTP layer
+├── services/                 # Business logic
+├── repositories/             # Data persistence (in-memory)
+├── models/                   # TypeScript interfaces
+├── schemas/                  # Zod validation schemas
+├── middlewares/               # Error handler, validation, request-id
+├── errors/                   # Typed error hierarchy
+├── docs/                     # Swagger specification
+└── utils/                    # Logger, pagination
 
-## 🧪 Testes
+public/                       # Web interface (HTML/CSS/JS)
+```
+
+The persistence layer uses in-memory arrays. The repository pattern allows swapping to a database (TypeORM, Prisma) without changing service or controller logic.
+
+## Testing
 
 ```bash
-# Rodar todos os testes
-npm test
-
-# Watch mode
-npm run test:watch
-
-# Com relatório de cobertura
-npm run test:cov
+npm test              # Run all tests
+npm run test:watch    # Watch mode
+npm run test:cov      # Coverage report
 ```
 
-**Cobertura atual:** 88%+ Statements · 91%+ Functions · 50 testes em 6 suites
+## Security
 
----
+- **Helmet** for HTTP headers hardening
+- **CORS** configurable via `CORS_ORIGIN` env variable
+- **Rate limiting** on API routes (100 requests / 15 min per IP)
+- **Request ID** tracking via `X-Request-Id` header
 
-## 🎨 Interface Web (Bônus)
+## Environment Variables
 
-Como diferencial, o projeto inclui uma **interface web premium** acessível em `http://localhost:3000` que permite testar visualmente todos os fluxos da API:
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `3000` | Server port |
+| `CORS_ORIGIN` | `*` | Allowed CORS origin |
 
-- Dashboard com contadores em tempo real
-- CRUD completo de automóveis e motoristas (criar, editar, excluir)
-- Controle de utilização com selects inteligentes (itens em uso ficam desabilitados)
-- Aba de histórico de utilizações finalizadas
-- Modal de confirmação para exclusões
-- Notificações toast para feedback visual
-- Design responsivo (mobile-friendly)
-- Construído com **HTML, CSS e JavaScript puro** — sem frameworks externos
+## Scripts
 
----
-
-## 📁 Estrutura do Projeto
-
-```
-├── public/                   # Interface Web (HTML/CSS/JS)
-├── src/
-│   ├── app.ts                # Configuração do Express
-│   ├── server.ts             # Entry point
-│   ├── config/               # Variáveis de ambiente
-│   ├── controllers/          # Camada HTTP
-│   ├── services/             # Regras de negócio
-│   ├── repositories/         # Persistência (in-memory)
-│   ├── models/               # Interfaces TypeScript
-│   ├── schemas/              # Schemas Zod
-│   ├── middlewares/          # Error handler, validação
-│   ├── errors/               # Classes de erro tipadas
-│   ├── docs/                 # Swagger spec
-│   └── utils/                # Logger
-├── Dockerfile                # Multi-stage build
-├── jest.config.js            # Configuração de testes
-├── eslint.config.mjs         # ESLint 9 flat config
-└── tsconfig.json             # TypeScript config
-```
-
----
-
-## 📜 Scripts Disponíveis
-
-| Script | Descrição |
+| Script | Description |
 |---|---|
-| `npm run dev` | Servidor em modo dev (hot-reload) |
-| `npm run build` | Compila TypeScript |
-| `npm start` | Inicia servidor de produção |
-| `npm test` | Executa todos os testes |
-| `npm run test:cov` | Testes com relatório de cobertura |
-| `npm run lint` | Verifica código com ESLint |
-| `npm run format` | Formata código com Prettier |
+| `npm run dev` | Development server (hot-reload) |
+| `npm run build` | Compile TypeScript |
+| `npm start` | Production server |
+| `npm test` | Run all tests |
+| `npm run test:cov` | Tests with coverage |
+| `npm run lint` | ESLint check |
+| `npm run format` | Prettier format |
 
----
-
-## 📄 Licença
+## License
 
 ISC

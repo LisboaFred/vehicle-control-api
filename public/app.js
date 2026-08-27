@@ -128,8 +128,8 @@ function renderAutomobiles() {
                 <p>Cor: ${a.color}</p>
             </div>
             <div class="actions">
-                <button class="btn-sm btn-edit" onclick="editAuto('${a.id}')">Editar</button>
-                <button class="btn-sm btn-delete" onclick="deleteAuto('${a.id}', '${a.licensePlate}')">Excluir</button>
+                <button class="btn-sm btn-edit" data-id="${a.id}">Editar</button>
+                <button class="btn-sm btn-delete" data-id="${a.id}" data-plate="${a.licensePlate}">Excluir</button>
             </div>
         </div>
     `).join('');
@@ -151,8 +151,8 @@ function renderDrivers() {
                 <p>ID: ${d.id.substring(0, 8)}…</p>
             </div>
             <div class="actions">
-                <button class="btn-sm btn-edit" onclick="editDriver('${d.id}')">Editar</button>
-                <button class="btn-sm btn-delete" onclick="deleteDriver('${d.id}', '${d.name}')">Excluir</button>
+                <button class="btn-sm btn-edit" data-id="${d.id}">Editar</button>
+                <button class="btn-sm btn-delete" data-id="${d.id}" data-name="${d.name}">Excluir</button>
             </div>
         </div>
     `).join('');
@@ -177,7 +177,7 @@ function renderUsages() {
                     <p style="font-size: 0.75rem; margin-top: 2px;">Início: ${formatDate(u.startDate)}</p>
                 </div>
                 <div class="actions">
-                    <button class="btn-sm btn-finish" onclick="finishUsage('${u.id}')">Finalizar</button>
+                    <button class="btn-sm btn-finish" data-id="${u.id}">Finalizar</button>
                 </div>
             </div>
         `).join('');
@@ -406,6 +406,36 @@ $$('.tab').forEach((tab) => {
 });
 
 // =============================================
+// Event Delegation (CSP Safe)
+// =============================================
+document.addEventListener('click', (e) => {
+    // Automobile actions
+    const autoEditBtn = e.target.closest('#auto-list .btn-edit');
+    const autoDeleteBtn = e.target.closest('#auto-list .btn-delete');
+    if (autoEditBtn) {
+        editAuto(autoEditBtn.dataset.id);
+    } else if (autoDeleteBtn) {
+        deleteAuto(autoDeleteBtn.dataset.id, autoDeleteBtn.dataset.plate);
+    }
+    
+    // Driver actions
+    const driverEditBtn = e.target.closest('#driver-list .btn-edit');
+    const driverDeleteBtn = e.target.closest('#driver-list .btn-delete');
+    if (driverEditBtn) {
+        editDriver(driverEditBtn.dataset.id);
+    } else if (driverDeleteBtn) {
+        deleteDriver(driverDeleteBtn.dataset.id, driverDeleteBtn.dataset.name);
+    }
+    
+    // Usage actions
+    const usageFinishBtn = e.target.closest('#usage-active-list .btn-finish');
+    if (usageFinishBtn) {
+        finishUsage(usageFinishBtn.dataset.id);
+    }
+});
+
+// =============================================
 // Init
 // =============================================
 loadData();
+
