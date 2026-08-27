@@ -15,8 +15,10 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+import { automobileRoutes } from './routes/automobile.routes';
+
 // --------------- Routes (will be added in later stages) ---------------
-// app.use('/api/automobiles', automobileRoutes);
+app.use('/api/automobiles', automobileRoutes);
 // app.use('/api/drivers', driverRoutes);
 // app.use('/api/usages', usageRoutes);
 
