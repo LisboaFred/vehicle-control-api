@@ -146,7 +146,10 @@ export const swaggerDocument = {
             },
           },
         },
-        responses: { '201': { description: 'Created' }, '400': { description: 'Validation Error' } },
+        responses: {
+          '201': { description: 'Created' },
+          '400': { description: 'Validation Error' },
+        },
       },
     },
     '/api/drivers/{id}': {
@@ -154,7 +157,10 @@ export const swaggerDocument = {
         tags: ['Drivers'],
         summary: 'Get driver by ID',
         parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'string' } }],
-        responses: { '200': { description: 'Successful response' }, '404': { description: 'Not Found' } },
+        responses: {
+          '200': { description: 'Successful response' },
+          '404': { description: 'Not Found' },
+        },
       },
       put: {
         tags: ['Drivers'],
@@ -167,13 +173,19 @@ export const swaggerDocument = {
             },
           },
         },
-        responses: { '200': { description: 'Successful response' }, '404': { description: 'Not Found' } },
+        responses: {
+          '200': { description: 'Successful response' },
+          '404': { description: 'Not Found' },
+        },
       },
       delete: {
         tags: ['Drivers'],
         summary: 'Delete driver',
         parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'string' } }],
-        responses: { '204': { description: 'No Content' }, '422': { description: 'Business Rule Error (Active Usage)' } },
+        responses: {
+          '204': { description: 'No Content' },
+          '422': { description: 'Business Rule Error (Active Usage)' },
+        },
       },
     },
     '/api/usages': {
@@ -211,7 +223,10 @@ export const swaggerDocument = {
         tags: ['Usages'],
         summary: 'Finish usage',
         parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'string' } }],
-        responses: { '200': { description: 'Successful response' }, '422': { description: 'Already finished' } },
+        responses: {
+          '200': { description: 'Successful response' },
+          '422': { description: 'Already finished' },
+        },
       },
     },
   },
