@@ -3,11 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { logger } from '../utils/logger';
 
 /**
- * Middleware that assigns a unique request ID to every incoming request.
- *
- * - Generates a UUID v4 and attaches it to `res.locals.requestId`
- * - Sets the `X-Request-Id` response header
- * - Logs the request with method, URL, and request ID
+ * Assigns a unique ID to each request via the X-Request-Id header.
+ * Reuses the client-provided ID if present.
  */
 export function requestId(req: Request, res: Response, next: NextFunction): void {
   const id = (req.headers['x-request-id'] as string) || uuidv4();
@@ -16,6 +13,5 @@ export function requestId(req: Request, res: Response, next: NextFunction): void
   res.locals.requestId = id;
 
   logger.info(`[${id.substring(0, 8)}] ${req.method} ${req.originalUrl}`);
-
   next();
 }

@@ -29,7 +29,6 @@ class DriverService {
   }
 
   public update(id: string, data: { name?: string }): Driver {
-    // Ensure exists
     this.findById(id);
 
     const updated = driverRepository.update(id, data);
@@ -40,7 +39,6 @@ class DriverService {
   }
 
   public delete(id: string): void {
-    // Ensure exists
     this.findById(id);
 
     if (usageRepository.findActiveUsageByDriverId(id)) {

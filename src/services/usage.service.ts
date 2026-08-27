@@ -9,17 +9,14 @@ import { Driver } from '../models/driver.model';
 
 class UsageService {
   public create(data: { driverId: string; automobileId: string; reason: string }): Usage {
-    // 1. Ensure driver and automobile exist
     driverService.findById(data.driverId);
     automobileService.findById(data.automobileId);
 
-    // 2. Check if automobile is currently in use
     const activeAutoUsage = usageRepository.findActiveUsageByAutomobileId(data.automobileId);
     if (activeAutoUsage) {
       throw new BusinessRuleError('Automobile is already in use by another driver.');
     }
 
-    // 3. Check if driver currently has an active usage
     const activeDriverUsage = usageRepository.findActiveUsageByDriverId(data.driverId);
     if (activeDriverUsage) {
       throw new BusinessRuleError('Driver already has an active automobile usage.');
@@ -61,14 +58,11 @@ class UsageService {
       usages = usages.filter((u) => u.driverId === filters.driverId);
     }
 
-    // In-memory JOIN
-    return usages.map((usage) => {
-      return {
-        ...usage,
-        automobile: automobileService.findById(usage.automobileId),
-        driver: driverService.findById(usage.driverId),
-      };
-    });
+    return usages.map((usage) => ({
+      ...usage,
+      automobile: automobileService.findById(usage.automobileId),
+      driver: driverService.findById(usage.driverId),
+    }));
   }
 }
 

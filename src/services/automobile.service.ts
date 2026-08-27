@@ -38,7 +38,6 @@ class AutomobileService {
   }
 
   public update(id: string, data: { color?: string; brand?: string }): Automobile {
-    // Ensure exists
     this.findById(id);
 
     const updated = automobileRepository.update(id, data);
@@ -49,7 +48,6 @@ class AutomobileService {
   }
 
   public delete(id: string): void {
-    // Ensure exists
     this.findById(id);
 
     if (usageRepository.findActiveUsageByAutomobileId(id)) {

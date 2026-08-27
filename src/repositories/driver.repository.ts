@@ -11,7 +11,6 @@ class DriverRepository {
   public findAll(filters?: { name?: string }): Driver[] {
     let result = this.drivers;
     if (filters?.name) {
-      // Partial match for names
       result = result.filter((d) => d.name.toLowerCase().includes(filters.name!.toLowerCase()));
     }
     return result;
