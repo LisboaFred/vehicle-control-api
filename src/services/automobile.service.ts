@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { automobileRepository } from '../repositories/automobile.repository';
 import { Automobile } from '../models/automobile.model';
-import { NotFoundError, ConflictError } from '../errors/app-error';
-// import { BusinessRuleError } from '../errors/app-error';
+import { NotFoundError, ConflictError, BusinessRuleError } from '../errors/app-error';
+import { usageRepository } from '../repositories/usage.repository';
 
 class AutomobileService {
   public create(data: { licensePlate: string; color: string; brand: string }): Automobile {
@@ -50,8 +50,9 @@ class AutomobileService {
     // Ensure exists
     this.findById(id);
 
-    // TODO: Validate active usage before deleting (Etapa 7)
-    // if (hasActiveUsage(id)) throw new BusinessRuleError('Cannot delete automobile with active usage');
+    if (usageRepository.findActiveUsageByAutomobileId(id)) {
+      throw new BusinessRuleError('Cannot delete automobile with active usage');
+    }
 
     automobileRepository.delete(id);
   }
