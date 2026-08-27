@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Control Pro — Painel de Gestão</title>
+    <meta name="description" content="Sistema integrado de gestão corporativa para controle de utilização de automóveis.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-glow"></div>
+    <div class="background-glow glow-2"></div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <h1>Vehicle Control <span>Pro</span></h1>
+                <p>Sistema Integrado de Gestão Corporativa</p>
+            </div>
+            <!-- Summary Cards -->
+            <div class="summary-cards" id="summary-cards">
+                <div class="summary-card">
+                    <span class="summary-icon">🚘</span>
+                    <div class="summary-data">
+                        <span class="summary-number" id="count-autos">0</span>
+                        <span class="summary-label">Automóveis</span>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-icon">🧑‍✈️</span>
+                    <div class="summary-data">
+                        <span class="summary-number" id="count-drivers">0</span>
+                        <span class="summary-label">Motoristas</span>
+                    </div>
+                </div>
+                <div class="summary-card accent-card">
+                    <span class="summary-icon">🔑</span>
+                    <div class="summary-data">
+                        <span class="summary-number" id="count-active">0</span>
+                        <span class="summary-label">Em Uso</span>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-icon">✅</span>
+                    <div class="summary-data">
+                        <span class="summary-number" id="count-finished">0</span>
+                        <span class="summary-label">Finalizados</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <!-- Automóveis -->
+            <section class="card glass" id="section-auto">
+                <div class="card-header">
+                    <h2>🚘 Automóveis</h2>
+                    <button class="btn-icon" id="toggle-auto-form" title="Novo automóvel">＋</button>
+                </div>
+                <form id="auto-form" class="form-group collapsed">
+                    <input type="hidden" id="auto-edit-id">
+                    <input type="text" id="auto-plate" placeholder="Placa (Ex: ABC-1234)" required>
+                    <input type="text" id="auto-color" placeholder="Cor (Ex: Preto)" required>
+                    <input type="text" id="auto-brand" placeholder="Marca (Ex: Honda)" required>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary" id="auto-submit-btn">Cadastrar</button>
+                        <button type="button" class="btn ghost" id="auto-cancel-btn" style="display:none">Cancelar</button>
+                    </div>
+                </form>
+                <div class="list-container" id="auto-list"></div>
+            </section>
+
+            <!-- Motoristas -->
+            <section class="card glass" id="section-driver">
+                <div class="card-header">
+                    <h2>🧑‍✈️ Motoristas</h2>
+                    <button class="btn-icon" id="toggle-driver-form" title="Novo motorista">＋</button>
+                </div>
+                <form id="driver-form" class="form-group collapsed">
+                    <input type="hidden" id="driver-edit-id">
+                    <input type="text" id="driver-name" placeholder="Nome do Motorista" required>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary" id="driver-submit-btn">Cadastrar</button>
+                        <button type="button" class="btn ghost" id="driver-cancel-btn" style="display:none">Cancelar</button>
+                    </div>
+                </form>
+                <div class="list-container" id="driver-list"></div>
+            </section>
+
+            <!-- Utilizações -->
+            <section class="card glass highlight" id="section-usage">
+                <div class="card-header">
+                    <h2>🔑 Utilização</h2>
+                    <button class="btn-icon" id="toggle-usage-form" title="Nova utilização">＋</button>
+                </div>
+                <form id="usage-form" class="form-group collapsed">
+                    <select id="usage-driver" required>
+                        <option value="">Selecione o Motorista...</option>
+                    </select>
+                    <select id="usage-auto" required>
+                        <option value="">Selecione o Automóvel...</option>
+                    </select>
+                    <input type="text" id="usage-reason" placeholder="Motivo de Uso" required>
+                    <button type="submit" class="btn accent">Iniciar Uso</button>
+                </form>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" data-tab="active">Ativas</button>
+                    <button class="tab" data-tab="history">Histórico</button>
+                </div>
+                <div class="list-container" id="usage-active-list"></div>
+                <div class="list-container" id="usage-history-list" style="display:none"></div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Vehicle Control Pro &bull; <a href="/api-docs" target="_blank">📄 API Docs (Swagger)</a> &bull; <a href="/api/health" target="_blank">💚 Health Check</a></p>
+        </footer>
+    </div>
+
+    <!-- Modal de confirmação -->
+    <div id="confirm-modal" class="modal-overlay" style="display:none">
+        <div class="modal glass">
+            <h3 id="confirm-title">Confirmar ação</h3>
+            <p id="confirm-message">Tem certeza?</p>
+            <div class="modal-actions">
+                <button class="btn ghost" id="confirm-cancel">Cancelar</button>
+                <button class="btn danger" id="confirm-ok">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
