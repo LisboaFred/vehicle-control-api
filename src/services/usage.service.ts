@@ -14,12 +14,12 @@ class UsageService {
 
     const activeAutoUsage = usageRepository.findActiveUsageByAutomobileId(data.automobileId);
     if (activeAutoUsage) {
-      throw new BusinessRuleError('Automobile is already in use by another driver.');
+      throw new BusinessRuleError('O automóvel já está em uso por outro motorista.');
     }
 
     const activeDriverUsage = usageRepository.findActiveUsageByDriverId(data.driverId);
     if (activeDriverUsage) {
-      throw new BusinessRuleError('Driver already has an active automobile usage.');
+      throw new BusinessRuleError('O motorista já possui uma utilização de automóvel ativa.');
     }
 
     const newUsage: Usage = {
@@ -39,11 +39,11 @@ class UsageService {
   public finish(id: string): Usage {
     const usage = usageRepository.findById(id);
     if (!usage) {
-      throw new NotFoundError('Usage', id);
+      throw new NotFoundError('Utilização', id);
     }
 
     if (usage.endDate !== null) {
-      throw new BusinessRuleError('Usage is already finished.');
+      throw new BusinessRuleError('A utilização já foi finalizada.');
     }
 
     return usageRepository.update(id, { endDate: new Date() })!;
