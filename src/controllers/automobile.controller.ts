@@ -27,7 +27,7 @@ class AutomobileController {
 
   public findById(req: Request, res: Response, next: NextFunction): void {
     try {
-      const { id } = req.params;
+      const id = req.params.id as string;
       const automobile = automobileService.findById(id);
       res.status(200).json({ status: 'success', data: automobile });
     } catch (error) {
@@ -37,7 +37,7 @@ class AutomobileController {
 
   public update(req: Request, res: Response, next: NextFunction): void {
     try {
-      const { id } = req.params;
+      const id = req.params.id as string;
       const data = req.body;
       const automobile = automobileService.update(id, data);
       res.status(200).json({ status: 'success', data: automobile });
@@ -48,7 +48,7 @@ class AutomobileController {
 
   public delete(req: Request, res: Response, next: NextFunction): void {
     try {
-      const { id } = req.params;
+      const id = req.params.id as string;
       automobileService.delete(id);
       res.status(204).send();
     } catch (error) {
