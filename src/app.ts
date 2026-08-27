@@ -18,11 +18,12 @@ app.get('/api/health', (_req, res) => {
 import { automobileRoutes } from './routes/automobile.routes';
 
 import { driverRoutes } from './routes/driver.routes';
+import { usageRoutes } from './routes/usage.routes';
 
 // --------------- Routes (will be added in later stages) ---------------
 app.use('/api/automobiles', automobileRoutes);
 app.use('/api/drivers', driverRoutes);
-// app.use('/api/usages', usageRoutes);
+app.use('/api/usages', usageRoutes);
 
 // --------------- Global Error Handler (must be last) ---------------
 app.use(errorHandler);

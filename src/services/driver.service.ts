@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { driverRepository } from '../repositories/driver.repository';
 import { Driver } from '../models/driver.model';
-import { NotFoundError } from '../errors/app-error';
-// import { BusinessRuleError } from '../errors/app-error';
+import { NotFoundError, BusinessRuleError } from '../errors/app-error';
+import { usageRepository } from '../repositories/usage.repository';
 
 class DriverService {
   public create(data: { name: string }): Driver {
@@ -43,8 +43,9 @@ class DriverService {
     // Ensure exists
     this.findById(id);
 
-    // TODO: Validate active usage before deleting (Etapa 7)
-    // if (hasActiveUsage(id)) throw new BusinessRuleError('Cannot delete driver with active usage');
+    if (usageRepository.findActiveUsageByDriverId(id)) {
+      throw new BusinessRuleError('Cannot delete driver with active usage');
+    }
 
     driverRepository.delete(id);
   }
