@@ -4,8 +4,8 @@ import { driverRepository } from '../repositories/driver.repository';
 import { NotFoundError } from '../errors/app-error';
 
 beforeEach(() => {
-  // @ts-ignore - Accessing private property for testing purposes
-  driverRepository.drivers = [];
+  
+  (driverRepository as any).drivers = [];
 });
 
 describe('DriverService', () => {
@@ -55,7 +55,7 @@ describe('DriverService', () => {
   describe('update', () => {
     it('should update driver name', () => {
       const driver = driverService.create({ name: 'Ayrton Senna' });
-      
+
       const updated = driverService.update(driver.id, { name: 'Rubens Barrichello' });
       expect(updated.name).toBe('Rubens Barrichello');
     });
@@ -68,9 +68,9 @@ describe('DriverService', () => {
   describe('delete', () => {
     it('should delete driver', () => {
       const driver = driverService.create({ name: 'Ayrton Senna' });
-      
+
       driverService.delete(driver.id);
-      
+
       const results = driverService.findAll();
       expect(results.length).toBe(0);
     });

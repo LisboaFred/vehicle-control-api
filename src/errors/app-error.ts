@@ -22,9 +22,7 @@ export class AppError extends Error {
  */
 export class NotFoundError extends AppError {
   constructor(resource: string, id?: string) {
-    const message = id
-      ? `${resource} with id '${id}' not found`
-      : `${resource} not found`;
+    const message = id ? `${resource} with id '${id}' not found` : `${resource} not found`;
     super(message, 404);
   }
 }
@@ -53,10 +51,7 @@ export class BusinessRuleError extends AppError {
 export class ValidationError extends AppError {
   public readonly details: Array<{ field: string; message: string }>;
 
-  constructor(
-    message: string,
-    details: Array<{ field: string; message: string }> = [],
-  ) {
+  constructor(message: string, details: Array<{ field: string; message: string }> = []) {
     super(message, 400);
     this.details = details;
   }

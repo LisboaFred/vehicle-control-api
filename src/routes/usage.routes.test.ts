@@ -8,12 +8,12 @@ import { automobileService } from '../services/automobile.service';
 import { driverService } from '../services/driver.service';
 
 beforeEach(() => {
-  // @ts-ignore - Accessing private property for testing purposes
-  usageRepository.usages = [];
-  // @ts-ignore
-  automobileRepository.automobiles = [];
-  // @ts-ignore
-  driverRepository.drivers = [];
+  
+  (usageRepository as any).usages = [];
+  
+  (automobileRepository as any).automobiles = [];
+  
+  (driverRepository as any).drivers = [];
 });
 
 describe('Usage Routes', () => {
@@ -32,9 +32,7 @@ describe('Usage Routes', () => {
     });
 
     it('should return 400 for validation errors', async () => {
-      const res = await request(app)
-        .post('/api/usages')
-        .send({ driverId: 'not-a-uuid' }); // Missing other fields and invalid uuid
+      const res = await request(app).post('/api/usages').send({ driverId: 'not-a-uuid' }); // Missing other fields and invalid uuid
 
       expect(res.status).toBe(400);
       expect(res.body.status).toBe('error');
@@ -70,9 +68,9 @@ describe('Usage Routes', () => {
         .send({ driverId: driver.id, automobileId: auto.id, reason: 'Test' });
 
       const id = postRes.body.data.id;
-      
+
       const res = await request(app).patch(`/api/usages/${id}/finish`);
-      
+
       expect(res.status).toBe(200);
       expect(res.body.data.endDate).toBeDefined();
       expect(res.body.data.endDate).not.toBeNull();

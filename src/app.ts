@@ -17,10 +17,15 @@ app.get('/api/health', (_req, res) => {
 
 import { automobileRoutes } from './routes/automobile.routes';
 
+import swaggerUi from 'swagger-ui-express';
+import { swaggerDocument } from './docs/swagger';
 import { driverRoutes } from './routes/driver.routes';
 import { usageRoutes } from './routes/usage.routes';
 
-// --------------- Routes (will be added in later stages) ---------------
+// --------------- Swagger Documentation ---------------
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// --------------- Routes ---------------
 app.use('/api/automobiles', automobileRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/usages', usageRoutes);

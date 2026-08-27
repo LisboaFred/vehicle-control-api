@@ -49,13 +49,13 @@ class UsageService {
       throw new BusinessRuleError('Usage is already finished.');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    
     return usageRepository.update(id, { endDate: new Date() })!;
   }
 
   public findAllWithDetails(): Array<Usage & { automobile: Automobile; driver: Driver }> {
     const usages = usageRepository.findAll();
-    
+
     // In-memory JOIN
     return usages.map((usage) => {
       return {

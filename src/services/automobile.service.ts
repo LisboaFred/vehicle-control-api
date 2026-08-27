@@ -8,7 +8,9 @@ class AutomobileService {
   public create(data: { licensePlate: string; color: string; brand: string }): Automobile {
     const existing = automobileRepository.findByLicensePlate(data.licensePlate);
     if (existing) {
-      throw new ConflictError(`Automobile with license plate '${data.licensePlate}' already exists.`);
+      throw new ConflictError(
+        `Automobile with license plate '${data.licensePlate}' already exists.`,
+      );
     }
 
     const newAutomobile: Automobile = {

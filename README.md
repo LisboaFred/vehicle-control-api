@@ -71,7 +71,7 @@ docker run -p 3000:3000 vehicle-control-api
 Após iniciar o servidor, acesse a documentação interativa Swagger em:
 
 ```
-http://localhost:3000/api/docs
+http://localhost:3000/api-docs
 ```
 
 ## Endpoints

@@ -5,8 +5,8 @@ import { ConflictError, NotFoundError } from '../errors/app-error';
 
 // Clear the in-memory array before each test to prevent test pollution
 beforeEach(() => {
-  // @ts-ignore - Accessing private property for testing purposes
-  automobileRepository.automobiles = [];
+  
+  (automobileRepository as any).automobiles = [];
 });
 
 describe('AutomobileService', () => {
@@ -42,7 +42,7 @@ describe('AutomobileService', () => {
     it('should filter by color and brand', () => {
       automobileService.create({ licensePlate: 'ABC-1111', color: 'Black', brand: 'Fiat' });
       automobileService.create({ licensePlate: 'ABC-2222', color: 'White', brand: 'Fiat' });
-      
+
       const resultsColor = automobileService.findAll({ color: 'Black' });
       expect(resultsColor.length).toBe(1);
       expect(resultsColor[0].licensePlate).toBe('ABC-1111');
@@ -54,7 +54,11 @@ describe('AutomobileService', () => {
 
   describe('findById', () => {
     it('should return automobile if found', () => {
-      const auto = automobileService.create({ licensePlate: 'ABC-1234', color: 'Black', brand: 'Fiat' });
+      const auto = automobileService.create({
+        licensePlate: 'ABC-1234',
+        color: 'Black',
+        brand: 'Fiat',
+      });
       const found = automobileService.findById(auto.id);
       expect(found).toBeDefined();
       expect(found.id).toBe(auto.id);
@@ -67,24 +71,34 @@ describe('AutomobileService', () => {
 
   describe('update', () => {
     it('should update automobile color and brand', () => {
-      const auto = automobileService.create({ licensePlate: 'ABC-1234', color: 'Black', brand: 'Fiat' });
-      
+      const auto = automobileService.create({
+        licensePlate: 'ABC-1234',
+        color: 'Black',
+        brand: 'Fiat',
+      });
+
       const updated = automobileService.update(auto.id, { color: 'White', brand: 'Ford' });
       expect(updated.color).toBe('White');
       expect(updated.brand).toBe('Ford');
     });
 
     it('should throw NotFoundError if updating non-existent automobile', () => {
-      expect(() => automobileService.update('invalid-id', { color: 'White' })).toThrow(NotFoundError);
+      expect(() => automobileService.update('invalid-id', { color: 'White' })).toThrow(
+        NotFoundError,
+      );
     });
   });
 
   describe('delete', () => {
     it('should delete automobile', () => {
-      const auto = automobileService.create({ licensePlate: 'ABC-1234', color: 'Black', brand: 'Fiat' });
-      
+      const auto = automobileService.create({
+        licensePlate: 'ABC-1234',
+        color: 'Black',
+        brand: 'Fiat',
+      });
+
       automobileService.delete(auto.id);
-      
+
       const results = automobileService.findAll();
       expect(results.length).toBe(0);
     });
