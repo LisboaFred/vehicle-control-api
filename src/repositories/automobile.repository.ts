@@ -27,7 +27,10 @@ class AutomobileRepository {
     return this.automobiles.find((a) => a.licensePlate === licensePlate);
   }
 
-  public update(id: string, data: Partial<Omit<Automobile, 'id' | 'createdAt' | 'licensePlate'>>): Automobile | undefined {
+  public update(
+    id: string,
+    data: Partial<Omit<Automobile, 'id' | 'createdAt' | 'licensePlate'>>,
+  ): Automobile | undefined {
     const automobile = this.findById(id);
     if (!automobile) return undefined;
 

@@ -3,10 +3,10 @@ import { config } from '../config';
 type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
 const LOG_COLORS: Record<LogLevel, string> = {
-  info: '\x1b[36m',   // Cyan
-  warn: '\x1b[33m',   // Yellow
-  error: '\x1b[31m',  // Red
-  debug: '\x1b[35m',  // Magenta
+  info: '\x1b[36m', // Cyan
+  warn: '\x1b[33m', // Yellow
+  error: '\x1b[31m', // Red
+  debug: '\x1b[35m', // Magenta
 };
 
 const RESET = '\x1b[0m';
