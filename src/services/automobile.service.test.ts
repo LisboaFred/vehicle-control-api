@@ -6,7 +6,7 @@ import { ConflictError, NotFoundError } from '../errors/app-error';
 // Clear the in-memory array before each test to prevent test pollution
 beforeEach(() => {
   
-  automobile(repository as any).automobiles = [];
+  (automobileRepository as any).automobiles = [];
 });
 
 describe('AutomobileService', () => {

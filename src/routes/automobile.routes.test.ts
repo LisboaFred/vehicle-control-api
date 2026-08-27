@@ -5,7 +5,7 @@ import { automobileRepository } from '../repositories/automobile.repository';
 
 beforeEach(() => {
   
-  automobile(repository as any).automobiles = [];
+  (automobileRepository as any).automobiles = [];
 });
 
 describe('Automobile Routes', () => {

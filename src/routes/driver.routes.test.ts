@@ -5,7 +5,7 @@ import { driverRepository } from '../repositories/driver.repository';
 
 beforeEach(() => {
   
-  driver(repository as any).drivers = [];
+  (driverRepository as any).drivers = [];
 });
 
 describe('Driver Routes', () => {

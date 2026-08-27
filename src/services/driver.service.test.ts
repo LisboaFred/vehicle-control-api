@@ -5,7 +5,7 @@ import { NotFoundError } from '../errors/app-error';
 
 beforeEach(() => {
   
-  driver(repository as any).drivers = [];
+  (driverRepository as any).drivers = [];
 });
 
 describe('DriverService', () => {

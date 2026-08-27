@@ -9,11 +9,11 @@ import { BusinessRuleError, NotFoundError } from '../errors/app-error';
 
 beforeEach(() => {
   
-  usage(repository as any).usages = [];
+  (usageRepository as any).usages = [];
   
-  automobile(repository as any).automobiles = [];
+  (automobileRepository as any).automobiles = [];
   
-  driver(repository as any).drivers = [];
+  (driverRepository as any).drivers = [];
 });
 
 describe('UsageService', () => {

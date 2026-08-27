@@ -9,11 +9,11 @@ import { driverService } from '../services/driver.service';
 
 beforeEach(() => {
   
-  usage(repository as any).usages = [];
+  (usageRepository as any).usages = [];
   
-  automobile(repository as any).automobiles = [];
+  (automobileRepository as any).automobiles = [];
   
-  driver(repository as any).drivers = [];
+  (driverRepository as any).drivers = [];
 });
 
 describe('Usage Routes', () => {
