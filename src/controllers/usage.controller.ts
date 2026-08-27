@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { usageService } from '../services/usage.service';
+import { parsePagination, paginate } from '../utils/pagination';
 
 class UsageController {
   public create(req: Request, res: Response, next: NextFunction): void {
@@ -24,8 +25,15 @@ class UsageController {
 
   public findAll(req: Request, res: Response, next: NextFunction): void {
     try {
-      const usages = usageService.findAllWithDetails();
-      res.status(200).json({ status: 'success', data: usages });
+      const { driverId, page, limit } = req.query;
+      const usages = usageService.findAllWithDetails({
+        driverId: driverId as string,
+      });
+
+      const pagination = parsePagination({ page: page as string, limit: limit as string });
+      const result = paginate(usages, pagination);
+
+      res.status(200).json({ status: 'success', ...result });
     } catch (error) {
       next(error);
     }

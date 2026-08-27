@@ -71,11 +71,16 @@ async function api(endpoint, options = {}) {
 // =============================================
 async function loadData() {
     try {
-        [automobiles, drivers, usages] = await Promise.all([
-            api('/automobiles'),
-            api('/drivers'),
-            api('/usages'),
+        const [autoRes, driverRes, usageRes] = await Promise.all([
+            api('/automobiles?limit=100'),
+            api('/drivers?limit=100'),
+            api('/usages?limit=100'),
         ]);
+
+        // Paginated responses return { data, meta }
+        automobiles = autoRes.data || autoRes;
+        drivers = driverRes.data || driverRes;
+        usages = usageRes.data || usageRes;
 
         render();
     } catch (e) {
