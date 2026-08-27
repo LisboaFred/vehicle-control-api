@@ -9,7 +9,7 @@ class AutomobileService {
     const existing = automobileRepository.findByLicensePlate(data.licensePlate);
     if (existing) {
       throw new ConflictError(
-        `Automobile with license plate '${data.licensePlate}' already exists.`,
+        `Automóvel com a placa '${data.licensePlate}' já existe.`,
       );
     }
 
@@ -32,7 +32,7 @@ class AutomobileService {
   public findById(id: string): Automobile {
     const automobile = automobileRepository.findById(id);
     if (!automobile) {
-      throw new NotFoundError('Automobile', id);
+      throw new NotFoundError('Automóvel', id);
     }
     return automobile;
   }
@@ -42,7 +42,7 @@ class AutomobileService {
 
     const updated = automobileRepository.update(id, data);
     if (!updated) {
-      throw new NotFoundError('Automobile', id);
+      throw new NotFoundError('Automóvel', id);
     }
     return updated;
   }
@@ -51,7 +51,7 @@ class AutomobileService {
     this.findById(id);
 
     if (usageRepository.findActiveUsageByAutomobileId(id)) {
-      throw new BusinessRuleError('Cannot delete automobile with active usage');
+      throw new BusinessRuleError('Não é possível excluir um automóvel com utilização ativa');
     }
 
     automobileRepository.delete(id);

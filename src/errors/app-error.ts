@@ -13,7 +13,7 @@ export class AppError extends Error {
 
 export class NotFoundError extends AppError {
   constructor(resource: string, id?: string) {
-    const message = id ? `${resource} with id '${id}' not found` : `${resource} not found`;
+    const message = id ? `${resource} com id '${id}' não encontrado(a)` : `${resource} não encontrado(a)`;
     super(message, 404);
   }
 }

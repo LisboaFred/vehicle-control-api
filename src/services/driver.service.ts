@@ -23,7 +23,7 @@ class DriverService {
   public findById(id: string): Driver {
     const driver = driverRepository.findById(id);
     if (!driver) {
-      throw new NotFoundError('Driver', id);
+      throw new NotFoundError('Motorista', id);
     }
     return driver;
   }
@@ -33,7 +33,7 @@ class DriverService {
 
     const updated = driverRepository.update(id, data);
     if (!updated) {
-      throw new NotFoundError('Driver', id);
+      throw new NotFoundError('Motorista', id);
     }
     return updated;
   }
@@ -42,7 +42,7 @@ class DriverService {
     this.findById(id);
 
     if (usageRepository.findActiveUsageByDriverId(id)) {
-      throw new BusinessRuleError('Cannot delete driver with active usage');
+      throw new BusinessRuleError('Não é possível excluir um motorista com utilização ativa');
     }
 
     driverRepository.delete(id);
